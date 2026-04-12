@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-primary-50: #f0f9ff;
+	--color-primary-100: #e0f2fe;
+	--color-primary-200: #bae6fd;
+	--color-primary-300: #7dd3fc;
+	--color-primary-400: #7dd3fc;
+	--color-primary-500: #5eb0c8;
+	--color-primary-600: #3b82f6;
+	--color-primary-700: #0369a1;
+	--color-primary-800: #075985;
+	--color-primary-900: #0c4a6e;
+	--color-primary-950: #003249;
+
+	--color-secondary-50: #fafafa;
+	--color-secondary-100: #f4f4f5;
+	--color-secondary-200: #e4e4e7;
+	--color-secondary-300: #d4d4d8;
+	--color-secondary-400: #a1a1aa;
+	--color-secondary-500: #71717a;
+	--color-secondary-600: #52525b;
+	--color-secondary-700: #3f3f46;
+	--color-secondary-800: #27272a;
+	--color-secondary-900: #18181b;
+	--color-secondary-950: #09090b;
+
+	--color-light: #FBFBFB;
+	--color-dark: #0F0F0F;
+}
+
+:root {
+	--background: var(--color-light);
+	--foreground: var(--color-secondary-950);
+	--primary: var(--color-primary-600);
+	--primary-foreground: var(--color-dark);
+	--secondary: var(--color-secondary-100);
+	--secondary-foreground: var(--color-secondary-900);
+	--border: var(--color-secondary-200);
+	--ring: var(--color-primary-500);
+	--radius: 0.75rem;
+}
+
+.dark {
+	--background: var(--color-dark);
+	--foreground: var(--color-secondary-50);
+	--primary: var(--color-primary-500);
+	--primary-foreground: var(--color-light);
+	--secondary: var(--color-secondary-900);
+	--secondary-foreground: var(--color-secondary-50);
+	--border: var(--color-secondary-800);
+	--ring: var(--color-primary-400);
+}
+
+body {
+	background-color: var(--background);
+	color: var(--foreground);
+	transition: background-color 0.3s, color 0.3s;
+}
