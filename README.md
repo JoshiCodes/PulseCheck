@@ -15,3 +15,5 @@ the main feature to monitor services is not yet implemented.
 - [ ] Monitoring
 - [ ] Monitoring Visualization
 - [ ] Notifications
+- [ ] Docker Image
+- [ ] Docker-compose setup (example file)

@@ -7,30 +7,47 @@ import { db } from '$lib/server/db';
 import { oidcProviders, user } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { genericOAuth } from 'better-auth/plugins';
-import type { GenericEndpointContext } from 'better-auth';
 import { bootstrapProviders } from '$lib/server/bootstrap';
 
-const dbProviders = await db.select().from(oidcProviders).where(eq(oidcProviders.enabled, true));
-
-const providers = dbProviders.map((provider) => ({
-	providerId: provider.id,
-	clientId: provider.clientId,
-	clientSecret: provider.clientSecret,
-	issuer: provider.issuer,
-	discoveryUrl: provider.issuer + "/.well-known/openid-configuration",
-	authentication: provider.authentication || "basic",
-	scopes: (provider.scopes && provider.scopes.length > 0) ? provider.scopes.split(' ') : ["openid", "profile", "email"], // default scopes if not provided
-	autoLink: true,
-}));
-
-if(providers.length === 0 && env.INIT_OIDC_ID) {
-	await bootstrapProviders();
+let isBuilding = false;
+try {
+	const { building } = await import('$app/environment');
+	isBuilding = building;
+} catch (e) {
+	isBuilding = true;
 }
+
+async function getProviders() {
+	if(isBuilding) return [];
+	const dbProviders = await db.select().from(oidcProviders).where(eq(oidcProviders.enabled, true));
+
+	const provs = dbProviders.map((provider) => ({
+		providerId: provider.id,
+		clientId: provider.clientId,
+		clientSecret: provider.clientSecret,
+		issuer: provider.issuer,
+		discoveryUrl: provider.issuer + '/.well-known/openid-configuration',
+		authentication: provider.authentication || 'basic',
+		scopes:
+			provider.scopes && provider.scopes.length > 0
+				? provider.scopes.split(' ')
+				: ['openid', 'profile', 'email'], // default scopes if not provided
+		autoLink: true
+	}));
+
+	if (provs.length === 0 && env.INIT_OIDC_ID) {
+		await bootstrapProviders();
+	}
+
+	return provs;
+}
+
+const providers = isBuilding ? [] : await getProviders();
 
 export const auth = betterAuth({
 	baseURL: env.ORIGIN,
 	secret: env.BETTER_AUTH_SECRET,
-	database: drizzleAdapter(db, { provider: 'sqlite' }),
+	database: drizzleAdapter(db, { provider: 'pg' }),
 	emailAndPassword: { enabled: true },
 	databaseHooks: {
 		user: {
@@ -58,7 +75,7 @@ export const auth = betterAuth({
 	},
 	plugins: [
 		genericOAuth({
-			config: providers
+			config: providers ?? []
 		}),
 		sveltekitCookies(getRequestEvent) // make sure this is the last plugin in the array
 	]

@@ -18,6 +18,16 @@
 		"db:studio": "drizzle-kit studio",
 		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes"
 	},
+	"optionalDependencies": {
+		"better-sqlite3": "npm:empty-package"
+	},
+	"dependencies": {
+		"@sveltejs/adapter-node": "^5.5.4",
+		"better-auth": "~1.4.21",
+		"drizzle-orm": "^0.45.2",
+		"postgres": "^3.4.9",
+		"svelte-dnd-action": "^0.9.69"
+	},
 	"devDependencies": {
 		"@better-auth/cli": "~1.4.21",
 		"@sveltejs/adapter-auto": "^7.0.1",
@@ -26,11 +36,9 @@
 		"@tailwindcss/forms": "^0.5.11",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.2.2",
-		"@types/better-sqlite3": "^7.6.13",
+		"@types/bun": "^1.3.12",
 		"@types/node": "^24",
-		"better-auth": "~1.4.21",
 		"drizzle-kit": "^0.31.10",
-		"drizzle-orm": "^0.45.2",
 		"prettier": "^3.8.1",
 		"prettier-plugin-svelte": "^3.5.1",
 		"prettier-plugin-tailwindcss": "^0.7.2",
@@ -39,10 +47,5 @@
 		"tailwindcss": "^4.2.2",
 		"typescript": "^6.0.2",
 		"vite": "^8.0.7"
-	},
-	"dependencies": {
-		"@sveltejs/adapter-node": "^5.5.4",
-		"better-sqlite3": "^12.8.0",
-		"svelte-dnd-action": "^0.9.69"
 	}
 }
