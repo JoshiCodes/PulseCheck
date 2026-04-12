@@ -32,7 +32,7 @@
 		class: className = null,
 	} = $props();
 
-	let copied = false;
+	let copied = $state(false);
 
 	function copy() {
 		window.navigator.clipboard.writeText(copyValue ?? value);

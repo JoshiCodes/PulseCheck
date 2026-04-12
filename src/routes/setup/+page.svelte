@@ -4,9 +4,23 @@
     import Card from '$lib/components/Card.svelte';
     import { enhance } from "$app/forms";
     import {notifyStore} from "$lib/notifications/notificationStore";
-    import {onMount} from "svelte";
+    import {signIn, signUp} from "$lib/auth-client.ts";
+
+    let { data } = $props();
 
     let isLoading = $state(false);
+
+    const signUpWithProvider = async (providerId: string) => {
+        console.log("Creating Account with provider:", providerId);
+        try {
+            await signIn.social({
+                provider: providerId as any,
+                callbackURL: "/admin"
+            });
+        } catch (err: any) {
+            console.error("Error during sign up:", err);
+        }
+    };
 
 </script>
 
@@ -80,5 +94,26 @@
                 Log in
             </Button>
         </form>
+
+        {#if data.providers?.length > 0}
+            <div class="relative my-8">
+                <div class="absolute inset-0 flex items-center"><span class="w-full border-t border-border"></span></div>
+                <div class="relative flex justify-center text-xs uppercase">
+                    <span class="bg-light dark:bg-dark px-2 text-muted-foreground">Or</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+                {#each data.providers as provider}
+                    <Button
+                            variant="outline"
+                            class="w-full border-border hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                            onclick={() => signUpWithProvider(provider.id)}
+                    >
+                        <span>Create User with {provider.name}</span>
+                    </Button>
+                {/each}
+            </div>
+        {/if}
     </Card>
 </div>

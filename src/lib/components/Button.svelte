@@ -22,7 +22,7 @@
 	}: Props = $props();
 
 	const variants = {
-		primary: 'bg-primary-500 text-primary-foreground border-primary-700 shadow-sm hover:brightness-110 active:scale-[0.98] hover:bg-primary-400',
+		primary: 'bg-primary-600 hover:bg-primary-700 border-primary-600 text-white shadow-sm hover:brightness-110 active:scale-[0.98]',
 		secondary: 'bg-secondary text-secondary-foreground border-secondary shadow-sm hover:bg-secondary/80 active:scale-[0.98]',
 		outline: 'border-border bg-transparent hover:bg-secondary text-foreground active:scale-[0.98]',
 		ghost: 'bg-transparent hover:bg-secondary border-none text-foreground active:scale-[0.98]'

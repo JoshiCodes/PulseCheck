@@ -8,8 +8,8 @@
 	let { variant = 'primary', class: className = '', children }: Props = $props();
 
 	const variants = {
-		primary: 'bg-primary/10 text-primary border-primary/20',
-		secondary: 'bg-secondary text-secondary-foreground border-border',
+		primary: 'bg-primary-500/20 text-primary-400 border-primary/20',
+		secondary: 'bg-secondary-500/50 text-secondary-foreground border-border',
 		outline: 'bg-transparent border-border text-foreground'
 	};
 </script>

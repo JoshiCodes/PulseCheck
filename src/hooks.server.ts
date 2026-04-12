@@ -26,9 +26,12 @@ const handleSetup: Handle = async ({event, resolve}) => {
 		}
 	}
 
-	const isSetupRoute = event.url.pathname.startsWith("/setup");
+	const pathname =  event.url.pathname;
+	const isSetupRoute = pathname.startsWith("/setup");
+	const isAuthApi = pathname.startsWith("/api/auth");
+	const isInternal = pathname.startsWith("/_app") || pathname.startsWith("/favicon") || pathname.startsWith("/robots.txt");
 
-	if(!isSetupComplete && !isSetupRoute) {
+	if(!isSetupComplete && !isSetupRoute && !isAuthApi && !isInternal) {
 		throw redirect(303, "/setup");
 	}
 

@@ -2,10 +2,11 @@
     import { page } from '$app/state';
 
     const menuItems = [
-        { name: 'Dashboard', href: '/admin' },
-        { name: 'Monitore', href: '/admin/monitors' },
-        { name: 'Benutzer', href: '/admin/users' },
-        { name: 'Einstellungen', href: '/admin/settings', }
+        { name: 'Settings', href: '/admin' },
+        { name: 'Monitors', href: '/admin/monitors' },
+        { name: 'User Management', href: '/admin/users' },
+        { name: 'OIDC Providers', href: '/admin/oidc', },
+        { name: 'Custom Links', href: '/admin/links', }
     ];
 
     // Hilfsfunktion um zu prüfen, ob der Pfad aktiv ist
@@ -15,8 +16,7 @@
     };
 </script>
 
-<aside class="flex h-screen w-64 flex-col border-r border-zinc-200  p-4 dark:border-zinc-800 bg-light dark:bg-dark">
-
+<aside class="h-screen w-64 flex-col border-r border-zinc-200  p-4 dark:border-zinc-800 bg-light dark:bg-dark">
 
     <nav class="flex-1 space-y-1">
         {#each menuItems as item}

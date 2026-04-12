@@ -3,8 +3,10 @@
 	import Logo from './Logo.svelte';
 	import Button from './Button.svelte';
 	import {signOut, useSession} from "$lib/auth-client";
+	import {page} from "$app/state";
 
 	const session = useSession();
+	const headerLinks = $derived(page.data.headerLinks || []);
 
 	async function logout() {
 		await signOut({
@@ -28,6 +30,9 @@
 				{#if $session.data}
 					<a href="/admin" class="text-sm font-medium transition-colors hover:text-primary">Dashboard</a>
 				{/if}
+				{#each headerLinks as link}
+					<a href={link.url} class="text-sm font-medium transition-colors hover:text-primary">{link.name}</a>
+				{/each}
 			</div>
 		</div>
 
