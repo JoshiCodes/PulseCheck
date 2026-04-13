@@ -4,7 +4,7 @@
     import Card from '$lib/components/Card.svelte';
     import { enhance } from "$app/forms";
     import {notifyStore} from "$lib/notifications/notificationStore";
-    import {signIn} from "$lib/auth-client.ts";
+    import {signIn} from "$lib/auth-client";
 
     let { data } = $props();
 
