@@ -1,6 +1,17 @@
 <script lang="ts">
 
+    import {onMount} from "svelte";
+    import {invalidateAll} from "$app/navigation";
+
     const { data } = $props();
+
+    onMount(() => {
+        const interval = setInterval(() => {
+            invalidateAll();
+        }, 10000);
+
+        return () => clearInterval(interval);
+    })
 
 </script>
 

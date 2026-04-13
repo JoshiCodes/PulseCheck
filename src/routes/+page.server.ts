@@ -5,7 +5,7 @@ import { desc, eq } from 'drizzle-orm';
 export const load = async () => {
 	const allMonitors = await db.select().from(monitors);
 
-	// Wir laden für jeden Monitor die letzten 10 Ergebnisse
+	// Load last 10 logs for each monitor
 	const monitorsWithLogs = await Promise.all(
 		allMonitors.map(async (m) => {
 			const logs = await db
@@ -17,7 +17,7 @@ export const load = async () => {
 
 			return {
 				...m,
-				recentLogs: logs.reverse() // Zeitlich aufsteigend für die Timeline
+				recentLogs: logs.reverse() // Reverse the logs to show the latest first
 			};
 		})
 	);
