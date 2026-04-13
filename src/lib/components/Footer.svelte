@@ -28,24 +28,26 @@
 					Modern, Open-Source Platform to monitor your systems.
 				</p>
 			</div>
-			<div class="flex flex-col">
-				<h4 class="text-sm font-bold uppercase tracking-wider text-foreground">
-					Links
-				</h4>
-				{#each linkColumns as column, index}
-					<div>
-						<ul class="mt-4 space-y-2">
-							{#each column as link}
-								<li>
-									<Link href={link.url} variant="muted" class="text-sm">
-										{link.name}
-									</Link>
-								</li>
-							{/each}
-						</ul>
-					</div>
-				{/each}
-			</div>
+			{#if footerLinks.length > 0}
+				<div class="flex flex-col">
+					<h4 class="text-sm font-bold uppercase tracking-wider text-foreground">
+						Links
+					</h4>
+					{#each linkColumns as column, index}
+						<div>
+							<ul class="mt-4 space-y-2">
+								{#each column as link}
+									<li>
+										<Link href={link.url} variant="muted" class="text-sm">
+											{link.name}
+										</Link>
+									</li>
+								{/each}
+							</ul>
+						</div>
+					{/each}
+				</div>
+			{/if}
 		</div>
 		<div class="mt-12 border-t border-border pt-8 text-center text-sm text-secondary-foreground/60">
 			<p>&copy; {new Date().getFullYear()} PulseCheck. All rights reserved.</p>

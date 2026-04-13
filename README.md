@@ -17,3 +17,15 @@ the main feature to monitor services is not yet implemented.
 - [ ] Notifications
 - [ ] Docker Image
 - [ ] Docker-compose setup (example file)
+
+
+## Deploy
+To deploy Pulse-Check, copy the [docker-compose](https://github.com/JoshiCodes/PulseCheck/blob/master/docker/docker-compose.yml) to your server.
+Make sure to configure your environment variables (best as a .env) like shown in the [.docker.env](https://github.com/JoshiCodes/PulseCheck/blob/master/docker/.docker.env)
+After you made your changes, run:
+```bash
+docker-compose up -d
+```
+
+> [!Note]
+> You may need to add github to your docker registry.
