@@ -3,6 +3,7 @@ import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { monitors } from '$lib/server/db/schema';
 import { eq, or } from 'drizzle-orm';
+import { MonitorService } from '$lib/server/monitor-service';
 
 export const actions = {
 	create: async ({ request }) => {
@@ -86,6 +87,8 @@ export const actions = {
 		if(!monitor) {
 			return fail(500, { error: 'Failed to create monitor' });
 		}
+
+		await MonitorService.upsertJob(monitor);
 
 		return {
 			success: true,

@@ -6,8 +6,14 @@ import { user } from '$lib/server/db/auth.schema';
 import { db } from '$lib/server/db';
 import { count } from 'drizzle-orm';
 import { sequence } from '@sveltejs/kit/hooks';
+import { MonitorService } from '$lib/server/monitor-service';
 
 let isSetupComplete = false;
+
+if(!building) {
+	console.log("Checking monitor queue sync...");
+	await MonitorService.syncMonitorsWithQueue();
+}
 
 const handleSetup: Handle = async ({event, resolve}) => {
 	if(building) return resolve(event);
