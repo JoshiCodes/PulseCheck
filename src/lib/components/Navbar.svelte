@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ThemeToggle from './ThemeToggle.svelte';
 	import Logo from './Logo.svelte';
-	import Button from './Button.svelte';
+	import Button from './form/Button.svelte';
 	import {signOut, useSession} from "$lib/auth-client";
 	import {page} from "$app/state";
 

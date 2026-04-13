@@ -14,6 +14,7 @@
 		copyButtonDisabled?: boolean,
 		copyValue?: string|null,
 		value?: any,
+		suffix?: string|null,
 		class?: string|null,
 	}
 
@@ -29,6 +30,7 @@
 		copyButtonDisabled = false,
 		copyValue = null,
 		value = $bindable(null),
+		suffix = null,
 		class: className = null,
 	} = $props();
 
@@ -45,13 +47,28 @@
 <div class="${className}">
 	<div class="relative inline-block w-full">
 		<label for={id} class="font-semibold mb-2 md:mb-4">{label}</label>
-		<input type={type} id={id} bind:value={value}
-		       class="border-box w-full
+		<div class="flex items-stretch border-box w-full rounded-lg
+               py-2 px-4 mt-2">
+			<input type={type} id={id} bind:value={value}
+			       class="w-full {suffix ? 'rounded-l-lg' : 'rounded-lg'}
                bg-zinc-200 dark:bg-zinc-800
-               rounded-lg
-               py-2 px-4 mt-2
+
                disabled:cursor-not-allowed
         " disabled={disabled} required={required} placeholder={placeholder} name={name} />
+
+			{#if suffix}
+				<div class="flex items-center justify-center px-3
+                            bg-zinc-300 dark:bg-zinc-700
+                            border-l border-zinc-400 dark:border-zinc-600
+                            text-zinc-600 dark:text-zinc-300
+                            text-sm font-medium select-none
+							rounded-r-lg"
+				>
+					{suffix}
+				</div>
+			{/if}
+		</div>
+
 		{#if copyButton}
 			<button title="Copy" type="button"
 			        class="absolute right-2 {label ? 'top-[48%]' : 'top-[20%]'} z-1

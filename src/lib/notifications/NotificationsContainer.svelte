@@ -2,7 +2,7 @@
 <script lang="ts">
     import { slide } from 'svelte/transition';
     import {notifyStore, type NotifyType} from "$lib/notifications/notificationStore";
-    import Button from "$lib/components/Button.svelte";
+    import Button from "$lib/components/form/Button.svelte";
 
     function getNotifyClasses(type: NotifyType) {
         const baseClasses = 'relative rounded-lg px-4 py-3 flex justify-between items-center border';

@@ -10,9 +10,14 @@ export const task = pgTable('task', {
 
 export const monitors = pgTable('monitors', {
 	id: serial('id').primaryKey(),
-	name: text('name').notNull(),
-	url: text('url').notNull(),
-	active: boolean('active').notNull().default(true)
+	name: text('name').notNull().unique(),
+	url: text('url').notNull().unique(),
+	active: boolean('active').notNull().default(true),
+	type: text().notNull().default('http'),
+	interval: integer('interval').notNull().default(60),
+	timeout: integer('timeout').notNull().default(30),
+	retries: integer('retries').notNull().default(0),
+	status_accepted: text().notNull().default('200,201,202,204'),
 });
 
 export const monitorLogs = pgTable('monitor_logs', {

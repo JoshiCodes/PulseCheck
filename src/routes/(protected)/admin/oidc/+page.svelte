@@ -1,10 +1,10 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
-    import Input from '$lib/components/Input.svelte';
+    import Input from '$lib/components/form/Input.svelte';
     import {page} from "$app/state";
-    import Select from "$lib/components/Select.svelte";
+    import Select from "$lib/components/form/Select.svelte";
     import {notifyStore} from "$lib/notifications/notificationStore";
-    import Button from "$lib/components/Button.svelte";
+    import Button from "$lib/components/form/Button.svelte";
 
     let { data, form } = $props();
     let loading = $state(false);

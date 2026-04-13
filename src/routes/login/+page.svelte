@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Button from '$lib/components/Button.svelte';
-	import Input from '$lib/components/Input.svelte';
+	import Button from '$lib/components/form/Button.svelte';
+	import Input from '$lib/components/form/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Card from '$lib/components/Card.svelte';

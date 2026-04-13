@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Button from '$lib/components/Button.svelte';
-    import Input from '$lib/components/Input.svelte';
+    import Button from '$lib/components/form/Button.svelte';
+    import Input from '$lib/components/form/Input.svelte';
     import Card from '$lib/components/Card.svelte';
     import { enhance } from "$app/forms";
     import {notifyStore} from "$lib/notifications/notificationStore";
-    import {signIn, signUp} from "$lib/auth-client.ts";
+    import {signIn} from "$lib/auth-client.ts";
 
     let { data } = $props();
 

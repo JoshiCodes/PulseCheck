@@ -1,8 +1,8 @@
 <script lang="ts">
     import { notifyStore } from "$lib/notifications/notificationStore";
-    import Select from "$lib/components/Select.svelte";
-    import Input from "$lib/components/Input.svelte";
-    import Button from "$lib/components/Button.svelte";
+    import Select from "$lib/components/form/Select.svelte";
+    import Input from "$lib/components/form/Input.svelte";
+    import Button from "$lib/components/form/Button.svelte";
     import { enhance } from '$app/forms';
     import { dndzone, type DndEvent } from 'svelte-dnd-action';
     import { flip } from 'svelte/animate';
@@ -162,8 +162,8 @@
                     } else {
                         notifyStore.add("Link created successfully.", {type: "success"})
                     }
-                    loading = false;
                     await update();
+                    loading = false;
                 }
             }}>
                 <div class="grid gap-4">
