@@ -1,0 +1,54 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: pulsecheck
+      POSTGRES_USER: pulsecheck
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-pulsecheck_secure_password}
+    ports:
+      - "5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pulsecheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pulse-network
+
+  pulsecheck:
+    image: ghcr.io/joshicodes/pulsecheck:latest
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      ORIGIN: ${ORIGIN:-http://localhost:3000}
+      BETTER_AUTH_SECRET: ${AUTH_SECRET:-some_secret_key}
+      DATABASE_URL: 'postgresql://pulsecheck:${DB_PASSWORD:-pulsecheck_secure_password}@database:5432/pulsecheck'
+
+      # Use the following environment variables to enable OpenID Connect authentication upon setup
+      #INIT_OIDC_ID="my-provider"
+      #INIT_OIDC_DISPLAY="My Provider"
+      #INIT_OIDC_URL="https://my-provider.com"
+      #INIT_OIDC_CLIENT_ID="my-client-id"
+      #INIT_OIDC_CLIENT_SECRET="my-client-secret"
+      #INIT_OIDC_AUTH_TYPE="basic" # or "post"
+      #INIT_OIDC_SCOPE="openid profile email"
+    ports:
+      - "3000:3000"
+    networks:
+      - pulse-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  postgres_data:
+
+networks:
+  pulse-network:
+    driver: bridge
