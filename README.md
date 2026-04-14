@@ -11,12 +11,12 @@ the main feature to monitor services is not yet implemented.
 - [x] OIDC Authentication
 - [x] OIDC Initial Setup (via .env)
 - [ ] Full Admin Dashboard
-- [ ] Adding/Removing monitors
-- [ ] Monitoring
-- [ ] Monitoring Visualization
+- [x] Adding/Removing monitors
+- [x] Monitoring (not full)
+- [x] Monitoring Visualization
 - [ ] Notifications
-- [ ] Docker Image
-- [ ] Docker-compose setup (example file)
+- [x] Docker Image
+- [x] Docker-compose setup (example file)
 
 
 ## Deploy
