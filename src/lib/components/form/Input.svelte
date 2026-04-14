@@ -16,6 +16,7 @@
 		value?: any,
 		suffix?: string|null,
 		class?: string|null,
+		onChange: (value: any) => void
 	}
 
 	let {
@@ -32,6 +33,7 @@
 		value = $bindable(null),
 		suffix = null,
 		class: className = null,
+		onChange = null
 	} = $props();
 
 	let copied = $state(false);
@@ -46,10 +48,12 @@
 
 <div class="${className}">
 	<div class="relative inline-block w-full">
-		<label for={id} class="font-semibold mb-2 md:mb-4">{label}</label>
-		<div class="flex items-stretch border-box w-full rounded-lg
-               py-2 px-4 mt-2">
+		{#if label}
+			<label for={id} class="font-semibold mb-2 md:mb-4">{label}</label>
+		{/if}
+		<div class="flex items-stretch border-box w-full rounded-lg my-2">
 			<input type={type} id={id} bind:value={value}
+				   onkeyup={() => { if(onChange) onChange(value) }}
 			       class="w-full {suffix ? 'rounded-l-lg' : 'rounded-lg'}
                bg-zinc-200 dark:bg-zinc-800
 

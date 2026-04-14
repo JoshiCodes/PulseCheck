@@ -23,7 +23,7 @@
             <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 flex items-center justify-between shadow-sm">
 
                 <div class="flex items-center gap-4">
-                    <div class="w-3 h-3 rounded-full animate-pulse {monitor.recentLogs.at(-1)?.status === 200 ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]'}"></div>
+                    <div class="w-3 h-3 rounded-full animate-pulse duration-1000 {monitor.recentLogs.at(-1)?.status === 200 ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]'}"></div>
                     <div>
                         <h3 class="font-semibold text-zinc-800 dark:text-zinc-100">{monitor.name}</h3>
                         <p class="text-sm text-zinc-500 truncate max-w-50">{monitor.url}</p>
