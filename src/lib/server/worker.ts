@@ -20,8 +20,7 @@ export const monitorWorker = new Worker(
 		const [monitor] = await db.select().from(monitors).where(eq(monitors.id, monitorId)).limit(1);
 		if (!monitor || !monitor.active) return;
 
-		const res = await runMonitorCheck(monitor);
-		console.log(res);
+		await runMonitorCheck(monitor);
 	},
 	{ connection }
 );

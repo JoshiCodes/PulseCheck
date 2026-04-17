@@ -29,7 +29,10 @@
 			{required}
 			{onchange}
 			bind:checked
-			class="peer h-5 w-5 cursor-pointer appearance-none rounded border border-border bg-secondary/10 transition-all checked:border-primary checked:bg-primary hover:border-primary/50 focus:outline-none focus:ring-4 focus:ring-primary/10"
+			class="peer h-5 w-5 cursor-pointer appearance-none rounded border border-border
+			bg-secondary/10 transition-all
+			checked:border-primary checked:bg-primary-500 hover:border-primary-500/50
+			focus:outline-none focus:ring-4 focus:ring-primary-500/10"
 		/>
 		<svg
 			class="pointer-events-none absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-primary-foreground opacity-0 transition-opacity peer-checked:opacity-100"

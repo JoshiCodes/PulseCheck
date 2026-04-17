@@ -6,7 +6,7 @@
     type Props = {
         name: string;
         id: string;
-        value?: string;
+        value?: any;
         label?: string;
         type?: HTMLInputTypeAttribute;
         edit: boolean,

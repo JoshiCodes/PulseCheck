@@ -8,6 +8,7 @@ import { oidcProviders, user } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { genericOAuth } from 'better-auth/plugins';
 import { bootstrapProviders } from '$lib/server/bootstrap';
+import { Settings } from '$lib/server/settings';
 
 let isBuilding = false;
 try {
@@ -61,7 +62,7 @@ export const auth = betterAuth({
 					const users = await db.select().from(user).limit(1);
 
 					if (!existingUser) {
-						const signUpAllowed = true || users.length === 0; // TODO
+						const signUpAllowed = await Settings.get('allowSignUp', true) || users.length === 0;
 
 						if (!signUpAllowed) {
 							throw new Error("Registration is disabled. Only existing users can log in.");

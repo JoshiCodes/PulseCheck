@@ -2,7 +2,7 @@
 	import Button from '$lib/components/form/Button.svelte';
 	import Input from '$lib/components/form/Input.svelte';
 	import Link from '$lib/components/Link.svelte';
-	import Checkbox from '$lib/components/Checkbox.svelte';
+	import Checkbox from '$lib/components/form/Checkbox.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import {signIn} from "$lib/auth-client";
 	import {notifyStore} from "$lib/notifications/notificationStore";

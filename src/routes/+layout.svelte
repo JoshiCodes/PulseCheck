@@ -11,6 +11,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<title>PulseCheck</title>
 	<script>
 		if (
 			localStorage.theme === 'dark' ||

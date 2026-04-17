@@ -32,23 +32,54 @@
 	--color-dark: #0F0F0F;
 }
 
+@theme {
+	/* Primary: Ein tiefes, sattes Smaragdgrün */
+	--color-primary-50: #ecfdf5;
+	--color-primary-100: #d1fae5;
+	--color-primary-200: #a7f3d0;
+	--color-primary-300: #6ee7b7;
+	--color-primary-400: #34d399;
+	--color-primary-500: #10b981; /* Hauptakzent */
+	--color-primary-600: #059669;
+	--color-primary-700: #047857;
+	--color-primary-800: #065f46;
+	--color-primary-900: #064e3b;
+	--color-primary-950: #022c22;
+
+	/* Secondary: Das neutrale Zinc-Fundament */
+	--color-secondary-50: #fafafa;
+	--color-secondary-100: #f4f4f5;
+	--color-secondary-200: #e4e4e7;
+	--color-secondary-300: #d4d4d8;
+	--color-secondary-400: #a1a1aa;
+	--color-secondary-500: #71717a;
+	--color-secondary-600: #52525b;
+	--color-secondary-700: #3f3f46;
+	--color-secondary-800: #27272a;
+	--color-secondary-900: #18181b;
+	--color-secondary-950: #09090b;
+
+	--color-light: #ffffff;
+	--color-dark: #09090b;
+}
+
 :root {
 	--background: var(--color-light);
 	--foreground: var(--color-secondary-950);
 	--primary: var(--color-primary-600);
-	--primary-foreground: var(--color-dark);
+	--primary-foreground: var(--color-light);
 	--secondary: var(--color-secondary-100);
 	--secondary-foreground: var(--color-secondary-900);
 	--border: var(--color-secondary-200);
 	--ring: var(--color-primary-500);
-	--radius: 0.75rem;
+	--radius: 0.5rem;
 }
 
 .dark {
 	--background: var(--color-dark);
 	--foreground: var(--color-secondary-50);
 	--primary: var(--color-primary-500);
-	--primary-foreground: var(--color-light);
+	--primary-foreground: var(--color-primary-950); /* Dunkler Text auf grünem Grund für bessere Lesbarkeit */
 	--secondary: var(--color-secondary-900);
 	--secondary-foreground: var(--color-secondary-50);
 	--border: var(--color-secondary-800);

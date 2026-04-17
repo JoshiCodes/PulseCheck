@@ -4,6 +4,7 @@
     const menuItems = [
         { name: 'Settings', href: '/admin' },
         { name: 'Monitors', href: '/admin/monitors' },
+        { name: 'Pages', href: '/admin/pages' },
         { name: 'User Management', href: '/admin/users' },
         { name: 'OIDC Providers', href: '/admin/oidc', },
         { name: 'Custom Links', href: '/admin/links', }

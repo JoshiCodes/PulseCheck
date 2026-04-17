@@ -15,6 +15,7 @@
         copyValue?: string | null,
         options?: Option[],
         value?: any,
+        suffix?: string | null,
         class?: string | null,
     }
 
@@ -29,13 +30,13 @@
         copyValue = null,
         options = [],
         value = $bindable(null),
+        suffix = null,
         class: className = null,
     } = $props();
 
     let copied = $state(false);
 
     function copy() {
-        // Kopiert entweder den expliziten copyValue oder den aktuell ausgewählten value
         window.navigator.clipboard.writeText(copyValue ?? value);
         copied = true;
         setTimeout(() => {copied = false}, 2000)
@@ -45,33 +46,54 @@
 <div class={className}>
     <div class="relative inline-block w-full">
         {#if label}
-            <label for={id} class="font-semibold mb-2 md:mb-4 block">{label}</label>
+            <label for={id} class="font-semibold block">{label}</label>
         {/if}
 
-        <select
-                id={id}
-                name={name}
-                bind:value={value}
-                disabled={disabled}
-                required={required}
-                class="border-box w-full
-               bg-zinc-200 dark:bg-zinc-800
-               rounded-lg
-               py-2 px-4 mt-2
-               appearance-none
-               disabled:cursor-not-allowed
-        "
-        >
-            {#if !value && required}
-                <option value="" disabled selected>Bitte wählen...</option>
-            {/if}
+        <div class="flex items-stretch border-box w-full rounded-lg my-2 relative">
+            <select
+                    id={id}
+                    name={name}
+                    bind:value={value}
+                    disabled={disabled}
+                    required={required}
+                    class="w-full py-2 px-4 {suffix ? 'rounded-l-lg' : 'rounded-lg'}
+                bg-zinc-200 dark:bg-zinc-800
+                text-zinc-900 dark:text-zinc-100
+                appearance-none cursor-pointer
+                focus:outline-none focus:ring-2 focus:ring-emerald-500/50
+                disabled:cursor-not-allowed disabled:opacity-50
+                h-10.5 py-0 leading-none
+                "
+            >
+                {#if !value && required}
+                    <option value="" disabled selected>Please select...</option>
+                {/if}
 
-            {#each options as option}
-                <option value={option.value}>
-                    {option.label}
-                </option>
-            {/each}
-        </select>
+                {#each options as option}
+                    <option value={option.value}>
+                        {option.label}
+                    </option>
+                {/each}
+            </select>
+
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500 {copyButton ? 'mr-10' : ''}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+
+            {#if suffix}
+                <div class="flex items-center justify-center px-3
+                            bg-zinc-300 dark:bg-zinc-700
+                            border-l border-zinc-400 dark:border-zinc-600
+                            text-zinc-600 dark:text-zinc-300
+                            text-sm font-medium select-none
+                            rounded-r-lg"
+                >
+                    {suffix}
+                </div>
+            {/if}
+        </div>
 
         {#if copyButton}
             <button title="Copy" type="button"

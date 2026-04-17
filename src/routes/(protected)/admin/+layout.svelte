@@ -6,7 +6,7 @@
 <div class="flex h-full w-full">
     <Sidebar />
 
-    <div class="flex-1 px-8 py-4">
+    <div class="flex-1 px-8 py-4 mt-4">
         {@render children()}
     </div>
 </div>

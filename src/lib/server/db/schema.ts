@@ -20,6 +20,16 @@ export const monitors = pgTable('monitors', {
 	status_accepted: text().notNull().default('200,201,202,204'),
 });
 
+export const pages = pgTable('pages', {
+	id: serial('id').primaryKey(),
+	name: text('name').notNull(),
+	slug: text('slug').notNull().unique(),
+	active: boolean('active').notNull().default(true),
+	monitors: text('monitors').notNull().default(''), // Comma-separated list of monitor IDs
+
+	requiresAuth: boolean('requires_auth').notNull().default(false),
+})
+
 export const monitorLogs = pgTable('monitor_logs', {
 	id: serial('id').primaryKey(),
 	monitorId: integer('monitor_id').references(() => monitors.id, { onDelete: 'cascade' }),
