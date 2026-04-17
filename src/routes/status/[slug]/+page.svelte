@@ -4,15 +4,11 @@
 
     const { data } = $props();
 
-    // Automatischer Refresh alle 10 Sekunden
     onMount(() => {
         const interval = setInterval(() => invalidateAll(), 10000);
         return () => clearInterval(interval);
     });
 
-    // Globaler System-Status (Derived)
-    // Wenn mindestens ein Monitor DOWN ist -> "Degraded"
-    // Wenn alle UP oder keine Daten da sind -> "Operational"
     const anyDown = $derived(
         data.monitors.some(m => m.recentLogs?.length > 0 && m.recentLogs.at(-1)?.status !== 200)
     );

@@ -9,13 +9,11 @@ export const load = async ({ params, locals }) => {
 
 	if (!page) throw error(404, 'Status page not found');
 
-	// Zugriffsschutz
-	if (!page.active && !locals.user) throw error(403, 'This page is currently offline');
+	if (!page.active) throw error(403, 'This page is currently offline');
 	if (page.requiresAuth && !locals.user) {
 		throw redirect(302, `/login?redirectTo=/status/${page.slug}`);
 	}
 
-	// 2. Monitore auflösen (IDs aus String extrahieren)
 	const monitorIds = page.monitors
 		.split(',')
 		.map((id) => parseInt(id.trim()))
@@ -26,7 +24,6 @@ export const load = async ({ params, locals }) => {
 	if (monitorIds.length > 0) {
 		const allMonitors = await db.select().from(monitors).where(inArray(monitors.id, monitorIds));
 
-		// 3. Für jeden Monitor die letzten 10 Logs holen
 		monitorsWithLogs = await Promise.all(
 			allMonitors.map(async (m) => {
 				const logs = await db
@@ -38,7 +35,7 @@ export const load = async ({ params, locals }) => {
 
 				return {
 					...m,
-					recentLogs: logs.reverse() || [] // Umdrehen für die Timeline (alt nach neu)
+					recentLogs: logs.reverse() || []
 				};
 			})
 		);
