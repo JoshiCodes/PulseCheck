@@ -28,13 +28,13 @@ services:
       DATABASE_URL: 'postgresql://pulsecheck:${DB_PASSWORD:-pulsecheck_secure_password}@database:5432/pulsecheck'
 
       # Use the following environment variables to enable OpenID Connect authentication upon setup
-      #INIT_OIDC_ID="my-provider"
-      #INIT_OIDC_DISPLAY="My Provider"
-      #INIT_OIDC_URL="https://my-provider.com"
-      #INIT_OIDC_CLIENT_ID="my-client-id"
-      #INIT_OIDC_CLIENT_SECRET="my-client-secret"
-      #INIT_OIDC_AUTH_TYPE="basic" # or "post"
-      #INIT_OIDC_SCOPE="openid profile email"
+      #INIT_OIDC_ID: "my-provider"
+      #INIT_OIDC_DISPLAY: "My Provider"
+      #INIT_OIDC_URL: "https://my-provider.com"
+      #INIT_OIDC_CLIENT_ID: "my-client-id"
+      #INIT_OIDC_CLIENT_SECRET: "my-client-secret"
+      #INIT_OIDC_AUTH_TYPE: "basic" # or "post"
+      #INIT_OIDC_SCOPE: "openid profile email"
     ports:
       - "3000:3000"
     networks:
