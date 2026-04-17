@@ -3,10 +3,11 @@ import { db } from '$lib/server/db';
 import { monitorLogs, monitors } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { runMonitorCheck } from '$lib/server/checker';
+import { env } from '$env/dynamic/private';
 
 const connection = {
-	host: 'localhost',
-	port: 6379
+	host: env.REDIS_HOST || 'localhost',
+	port: env.REDIS_PORT ? parseInt(env.REDIS_PORT) : 6379
 };
 
 const QUEUE_NAME = 'monitor-checks';
