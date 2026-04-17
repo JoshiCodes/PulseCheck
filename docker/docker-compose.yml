@@ -17,6 +17,18 @@ services:
     networks:
       - pulse-network
 
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - pulse-network
+
   pulsecheck:
     image: ghcr.io/joshicodes/pulsecheck:latest
     depends_on:
@@ -26,6 +38,7 @@ services:
       ORIGIN: ${ORIGIN:-http://localhost:3000}
       BETTER_AUTH_SECRET: ${AUTH_SECRET:-some_secret_key}
       DATABASE_URL: 'postgresql://pulsecheck:${DB_PASSWORD:-pulsecheck_secure_password}@database:5432/pulsecheck'
+      REDIS_HOST: redis
 
       # Use the following environment variables to enable OpenID Connect authentication upon setup
       #INIT_OIDC_ID: "my-provider"

@@ -4,7 +4,6 @@ import { pages, monitors, monitorLogs } from '$lib/server/db/schema';
 import { eq, inArray, desc } from 'drizzle-orm';
 
 export const load = async ({ params, locals }) => {
-	// 1. Seite laden
 	const [page] = await db.select().from(pages).where(eq(pages.slug, params.slug)).limit(1);
 
 	if (!page) throw error(404, 'Status page not found');
