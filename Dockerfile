@@ -13,7 +13,7 @@ ENV NODE_ENV=production
 RUN bun drizzle-kit generate
 RUN bun run build
 
-FROM oven/bun:slim AS runner
+FROM oven/bun:latest AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
