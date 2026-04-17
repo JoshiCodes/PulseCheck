@@ -2,6 +2,8 @@
     import Button from "$lib/components/form/Button.svelte";
     import Checkbox from "$lib/components/form/Checkbox.svelte";
     import Select from "$lib/components/form/Select.svelte";
+    import {notifyStore} from "$lib/notifications/notificationStore";
+    import {enhance} from "$app/forms";
 
     let { data } = $props();
 
@@ -18,7 +20,21 @@
         </p>
     </header>
 
-    <form class="space-y-8" method="post" action="?/saveSettings">
+    <form class="space-y-8" method="post" action="?/saveSettings"
+          use:enhance={() => {
+            loading = true;
+            return async ({ result, update }) => {
+                if(result.type === "failure") {
+                    const msg = result.data?.error ?? "Unknown error.";
+                    notifyStore.add("Failed to update settings: " + msg, {type: "error"});
+                } else if(result.type === "success") {
+                    notifyStore.add("Successfully saved settings..", {type: "success"});
+                }
+                await update();
+                loading = false;
+            };
+        }}
+    >
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="space-y-1">
                 <h2 class="text-lg font-medium text-zinc-700 dark:text-zinc-200">Authentication</h2>
@@ -78,13 +94,16 @@
                                     label="Default Status Page"
                                     options={
                                         [
-                                            {label: 'None', value: null}
+                                            {label: 'None', value: ""}
+                                            , ...settings.allPages?.map(page => ({label: page.name, value: String(page.slug)}))
                                         ]
                                     }
+                                    bind:value={settings.defaultStatusPage}
                             />
                             <p class="text-xs text-zinc-500">
                                 Select the default status page to show when users visit the main page.
-                                If no status page is selected, the main page will redirect to /login.
+                                If no status page is selected, the main page will redirect to /login. <br>
+                                This requires the "Show all states on main page" setting to be disabled.
                             </p>
                         </div>
                     </div>

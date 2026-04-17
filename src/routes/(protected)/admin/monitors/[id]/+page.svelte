@@ -7,13 +7,16 @@
     import EditComponent from "$lib/components/EditComponent.svelte";
     import BottomPopup from "$lib/components/BottomPopup.svelte";
 
-    // Importiere untrack von svelte
+    import { enhance } from "$app/forms";
     import { untrack } from "svelte";
+    import {notifyStore} from "$lib/notifications/notificationStore";
+    import {goto} from "$app/navigation";
 
     let { data } = $props();
 
     let monitor = $state(untrack(() => ({ ...data.monitor })));
     let editMode = $state(false);
+    let loading = $state(false);
 
     let statusArray = $state(untrack(() =>
         monitor.status_accepted ? monitor.status_accepted.split(',') : []
@@ -202,17 +205,32 @@
             </div>
 
             {#if editMode}
-                <div class="p-4 rounded-xl bg-red-50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/20 transition-opacity duration-300 {editMode ? 'opacity-100' : 'opacity-40'}"
+                <form method="post" action="?/delete" class="p-4 rounded-xl bg-red-200 dark:bg-red-950/10 border border-red-100 dark:border-red-900/20 transition-opacity duration-300 {editMode ? 'opacity-100' : 'opacity-40'}"
                 transition:fly={{ y: 20, duration: 200 }}
+                      use:enhance={() => {
+                        loading = true;
+                        return async ({ result, update }) => {
+                            if(result.type === "failure") {
+                                const msg = result.data?.error ?? "Unknown error.";
+                                notifyStore.add("Failed to delete Monitor: " + msg, {type: "error"});
+                            } else if(result.type === "success") {
+                                notifyStore.add("Monitor deleted successfully.", {type: "success"});
+                                await goto("/admin/monitors");
+                            }
+                            await update();
+                            loading = false;
+                        };
+                    }}
                 >
+                    <input type="hidden" name="id" value={monitor.id} />
                     <h4 class="text-xs font-bold text-red-600 dark:text-red-500 uppercase mb-2">Danger Zone</h4>
                     <p class="text-[11px] text-red-700/70 dark:text-red-500/60 leading-relaxed mb-3">
                         Deleting this monitor will stop all checks and wipe historical data.
                     </p>
-                    <Button variant="ghost" disabled={!editMode} class="w-full text-red-600 hover:bg-red-600 hover:text-white border border-red-200 dark:border-red-900/30 py-2 text-[10px] uppercase font-bold tracking-tighter disabled:opacity-50">
+                    <Button variant="ghost" type="submit" disabled={!editMode} class="w-full bg-red-500 dark:bg-red-900/50  text-red-600 hover:bg-red-600 hover:text-white border border-red-200 dark:border-red-900/30 py-2 text-[10px] uppercase font-bold tracking-tighter disabled:opacity-50">
                         Delete Monitor
                     </Button>
-                </div>
+                </form>
             {/if}
         </div>
     </div>

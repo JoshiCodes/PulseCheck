@@ -27,6 +27,9 @@ export const pages = pgTable('pages', {
 	active: boolean('active').notNull().default(true),
 	monitors: text('monitors').notNull().default(''), // Comma-separated list of monitor IDs
 
+	createdAt: timestamp('created_at', { withTimezone: true, mode: "date"}).$defaultFn(() => new Date()),
+	updatedAt: timestamp('updated_at', { withTimezone: true, mode: "date"}).$defaultFn(() => new Date()),
+
 	requiresAuth: boolean('requires_auth').notNull().default(false),
 })
 

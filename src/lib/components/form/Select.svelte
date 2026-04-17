@@ -1,6 +1,6 @@
 <script lang="ts">
     type Option = {
-        value: string | number,
+        value: any,
         label: string
     };
 

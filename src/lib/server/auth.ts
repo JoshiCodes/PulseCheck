@@ -62,7 +62,7 @@ export const auth = betterAuth({
 					const users = await db.select().from(user).limit(1);
 
 					if (!existingUser) {
-						const signUpAllowed = await Settings.get('allowSignUp', true) || users.length === 0;
+						const signUpAllowed = await Settings.get('allowSignUp', false) || users.length === 0;
 
 						if (!signUpAllowed) {
 							throw new Error("Registration is disabled. Only existing users can log in.");

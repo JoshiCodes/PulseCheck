@@ -23,3 +23,16 @@ export const load = async ({ params }) => {
 	};
 
 };
+
+export const actions = {
+	delete: async ({ params }) => {
+		const id = parseInt(params.id);
+		if(isNaN(id)) {
+			throw error(400, 'Invalid monitor ID');
+		}
+
+		await db.delete(monitors).where(eq(monitors.id, id));
+		return { success: true };
+
+	}
+}

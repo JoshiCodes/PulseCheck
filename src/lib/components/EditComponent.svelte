@@ -11,13 +11,15 @@
         type?: HTMLInputTypeAttribute;
         edit: boolean,
         content?: Snippet|null
-        hasChanged?: boolean
+        hasChanged?: boolean,
+        class?: string
     }
 
     let {
         name, id, value = $bindable(""),
         label, type = "text", edit = $bindable(false),
-        content = null, hasChanged = $bindable(false)
+        content = null, hasChanged = $bindable(false),
+        class: className = ''
     }: Props = $props();
 
     const initialValue = value;
@@ -25,24 +27,26 @@
 </script>
 
 
-<span class="text-zinc-500 block text-sm">{label}</span>
-{#if edit}
-    <Input
-            id={id}
-            name={name}
-            bind:value
-            {type}
-            onChange={() => {
+<div class={className}>
+    <span class="text-zinc-500 block text-sm">{label}</span>
+    {#if edit}
+        <Input
+                id={id}
+                name={name}
+                bind:value
+                {type}
+                onChange={() => {
                 console.log("value changed", value, initialValue);
                 hasChanged = value !== initialValue;
             }}
-    />
-{:else}
-    {#if content}
-        {@render content()}
+        />
     {:else}
-        <span class="my-4">{value}</span>
+        {#if content}
+            {@render content()}
+        {:else}
+            <span class="my-4">{value}</span>
+        {/if}
     {/if}
-{/if}
+</div>
 
 

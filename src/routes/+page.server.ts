@@ -1,8 +1,24 @@
 import { db } from '$lib/server/db';
 import { monitors, monitorLogs } from '$lib/server/db/schema';
 import { desc, eq } from 'drizzle-orm';
+import { Settings } from '$lib/server/settings';
+import { redirect } from '@sveltejs/kit';
 
-export const load = async () => {
+export const load = async ({locals}) => {
+
+	if (!await Settings.get('showAllOnMainPage', true)) {
+
+		const defaultStatusPage = await Settings.get('defaultStatusPage', null);
+
+		if(defaultStatusPage) throw redirect(
+			302,
+			`/status/${defaultStatusPage}`
+		);
+
+		if (!locals.user) throw redirect(302, '/login');
+		else throw redirect(302, '/admin');
+	}
+
 	const allMonitors = await db.select().from(monitors);
 
 	// Load last 10 logs for each monitor
