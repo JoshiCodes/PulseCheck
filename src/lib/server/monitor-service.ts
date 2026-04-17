@@ -7,6 +7,10 @@ import { runMonitorCheck } from '$lib/server/checker';
 export const MonitorService = {
 
 	async upsertJob(monitor: typeof monitors.$inferSelect) {
+		if(!monitorQueue) {
+			console.warn("Skipping upsert job because the queue is not initialized. This may be the result of running in a build environment or an issue with BullMQ initialization.");
+			return;
+		}
 		await monitorQueue.add(
 			'monitor-' + monitor.id,
 			{ monitorId: monitor.id },
@@ -20,6 +24,10 @@ export const MonitorService = {
 	},
 
 	async syncMonitorsWithQueue() {
+		if(!monitorQueue) {
+			console.warn("Skipping syncing monitors with queue because the queue is not initialized. This may be the result of running in a build environment or an issue with BullMQ initialization.");
+			return;
+		}
 		const allActive = await db.select().from(monitors).where(eq(monitors.active, true));
 		for(const m of allActive) {
 			console.log(`Syncing monitor ${m.id} with queue...`);
