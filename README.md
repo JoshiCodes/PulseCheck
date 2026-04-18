@@ -1,4 +1,4 @@
-# Pulse-Check
+# PulseCheck
 ### Modern, Open-Source Platform to monitor your systems.
 
 ## Status
@@ -15,8 +15,10 @@ the main feature to monitor services is not yet implemented.
 - [x] Monitoring (not full)
 - [x] Monitoring Visualization
 - [ ] Notifications
+- [ ] Custom Status Updates
 - [x] Docker Image
 - [x] Docker-compose setup (example file)
+- [ ] Better Documentation
 
 
 ## Deploy
