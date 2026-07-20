@@ -7,10 +7,13 @@
     import { dndzone, type DndEvent } from 'svelte-dnd-action';
     import { flip } from 'svelte/animate';
     import Badge from "$lib/components/Badge.svelte";
+    import BottomPopup from "$lib/components/BottomPopup.svelte";
 
     let { data } = $props();
 
     let loading = $state(false);
+    let orderDirty = $state(false);
+    let savingOrder = $state(false);
     const flipDurationMs = 300;
 
     // local state
@@ -29,7 +32,7 @@
 
     function handleHeaderFinalize(e: CustomEvent<DndEvent<any>>) {
         headerLinks = e.detail.items;
-        // maybe save automatically?
+        orderDirty = true;
     }
 
     function handleFooterConsider(e: CustomEvent<DndEvent<any>>) {
@@ -38,19 +41,33 @@
 
     function handleFooterFinalize(e: CustomEvent<DndEvent<any>>) {
         footerLinks = e.detail.items;
+        orderDirty = true;
     }
 
-    async function saveOrder(location: 'header' | 'footer') {
-        const items = location === 'header' ? headerLinks : footerLinks;
-        const formData = new FormData();
-        formData.append('items', JSON.stringify(items.map((item, index) => ({ id: item.id, order: index }))));
+    async function saveAllOrders() {
+        savingOrder = true;
+        try {
+            for (const location of ['header', 'footer'] as const) {
+                const items = location === 'header' ? headerLinks : footerLinks;
+                const formData = new FormData();
+                formData.append('items', JSON.stringify(items.map((item, index) => ({ id: item.id, order: index }))));
 
-        const response = await fetch('?/updateOrder', {
-            method: 'POST',
-            body: formData
-        });
+                const response = await fetch('?/updateOrder', {
+                    method: 'POST',
+                    body: formData
+                });
 
-        if (response.ok) notifyStore.add(`Order for ${location} updated`, { type: 'success' });
+                if (!response.ok) {
+                    notifyStore.add(`Failed to update ${location} order`, { type: 'error' });
+                    savingOrder = false;
+                    return;
+                }
+            }
+            notifyStore.add('Link order updated', { type: 'success' });
+            orderDirty = false;
+        } finally {
+            savingOrder = false;
+        }
     }
 </script>
 
@@ -66,7 +83,6 @@
             <section class="space-y-4">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-semibold">Header Links</h2>
-                    <Button variant="ghost" size="sm" onclick={() => saveOrder('header')}>Save Header Order</Button>
                 </div>
 
                 {#if headerLinks.length === 0}
@@ -107,7 +123,6 @@
             <section class="space-y-4">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-semibold">Footer Links</h2>
-                    <Button variant="ghost" size="sm" onclick={() => saveOrder('footer')}>Save Footer Order</Button>
                 </div>
 
                 {#if footerLinks.length === 0}
@@ -175,4 +190,23 @@
             </form>
         </div>
     </div>
+
+    <BottomPopup visible={orderDirty}>
+        <div class="flex items-center justify-between w-full max-w-5xl mx-auto px-4">
+            <div class="flex items-center gap-3">
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span class="text-zinc-900 dark:text-zinc-100 font-medium text-sm">
+                    You have unsaved changes!
+                </span>
+            </div>
+            <div class="flex items-center gap-2">
+                <Button variant="ghost" onclick={() => { orderDirty = false; }} size="sm" class="text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200">
+                    Discard
+                </Button>
+                <Button onclick={saveAllOrders} size="sm" disabled={savingOrder} class="bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 px-6">
+                    {savingOrder ? 'Saving...' : 'Save Changes'}
+                </Button>
+            </div>
+        </div>
+    </BottomPopup>
 </div>

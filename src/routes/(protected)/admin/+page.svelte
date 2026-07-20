@@ -1,15 +1,21 @@
 <script lang="ts">
-    import Button from "$lib/components/form/Button.svelte";
     import Checkbox from "$lib/components/form/Checkbox.svelte";
     import Select from "$lib/components/form/Select.svelte";
     import {notifyStore} from "$lib/notifications/notificationStore";
     import {enhance} from "$app/forms";
+    import Button from "$lib/components/form/Button.svelte";
+    import BottomPopup from "$lib/components/BottomPopup.svelte";
 
     let { data } = $props();
 
     let settings = $derived(data.settings);
 
     let loading = $state(false);
+    let dirty = $state(false);
+
+    function markDirty() {
+        dirty = true;
+    }
 </script>
 
 <div class="space-y-8">
@@ -20,7 +26,8 @@
         </p>
     </header>
 
-    <form class="space-y-8" method="post" action="?/saveSettings"
+    <form id="settings-form" class="space-y-8" method="post" action="?/saveSettings"
+          onchange={markDirty}
           use:enhance={() => {
             loading = true;
             return async ({ result, update }) => {
@@ -29,6 +36,7 @@
                     notifyStore.add("Failed to update settings: " + msg, {type: "error"});
                 } else if(result.type === "success") {
                     notifyStore.add("Successfully saved settings..", {type: "success"});
+                    dirty = false;
                 }
                 await update();
                 loading = false;
@@ -111,19 +119,27 @@
             </div>
         </section>
 
-        <div class="pt-6 border-t border-zinc-300 dark:border-zinc-800 flex items-center justify-end gap-4">
+        <div class="pt-6 border-t border-zinc-300 dark:border-zinc-800 flex items-center justify-end">
             <span class="text-xs text-zinc-500 italic">Last saved: {settings.lastSaved ?? "Never"}</span>
-            <Button
-                    type="submit"
-                    class="bg-primary text-primary-foreground hover:opacity-90 px-8 transition-all"
-                    disabled={loading}
-            >
-                {#if loading}
-                    Saving...
-                {:else}
-                    Save Changes
-                {/if}
-            </Button>
         </div>
     </form>
+
+    <BottomPopup visible={dirty}>
+        <div class="flex items-center justify-between w-full max-w-5xl mx-auto px-4">
+            <div class="flex items-center gap-3">
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span class="text-zinc-900 dark:text-zinc-100 font-medium text-sm">
+                    You have unsaved changes!
+                </span>
+            </div>
+            <div class="flex items-center gap-2">
+                <Button variant="ghost" onclick={() => { dirty = false; }} size="sm" class="text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200">
+                    Discard
+                </Button>
+                <Button type="submit" form="settings-form" size="sm" disabled={loading} class="bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 px-6">
+                    {loading ? 'Saving...' : 'Save Changes'}
+                </Button>
+            </div>
+        </div>
+    </BottomPopup>
 </div>

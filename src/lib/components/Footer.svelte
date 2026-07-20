@@ -16,7 +16,7 @@
 	const linkColumns = $derived(chunkArray(footerLinks, 3));
 </script>
 
-<footer class="border-t border-border bg-light dark:bg-dark py-12 z-50">
+<footer class="border-t border-border bg-light dark:bg-dark py-12 z-10">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="grid grid-cols-1 gap-12 md:grid-cols-4">
 			<div class="col-span-1 md:col-span-2">

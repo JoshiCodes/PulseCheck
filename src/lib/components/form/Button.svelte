@@ -8,6 +8,7 @@
 		class?: string;
 		onclick?: (e: MouseEvent) => void;
 		disabled?: boolean;
+		form?: string | null;
 		children: Snippet;
 	}
 
@@ -18,6 +19,7 @@
 		class: className = '',
 		onclick,
 		disabled = false,
+		form = null,
 		children
 	}: Props = $props();
 
@@ -39,6 +41,7 @@
 	{type}
 	{onclick}
 	{disabled}
+	form={form}
 	class="inline-flex items-center justify-center rounded-lg font-medium
 	transition-all duration-200 ease-in-out
 	cursor-pointer
