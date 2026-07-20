@@ -4,7 +4,8 @@
 ## Status
 Currently under development.
 This project is in very early stages, 
-the main feature to monitor services is not yet implemented.
+while the main monitoring is working, no advanced options like Notifications or the like are currently implemented.
+
 ### Roadmap
 - [x] Initial Setup
 - [x] User Login/Signup
