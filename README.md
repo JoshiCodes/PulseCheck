@@ -15,6 +15,8 @@ the main feature to monitor services is not yet implemented.
 - [x] Monitoring (not full)
 - [x] Monitoring Visualization
 - [ ] Notifications
+  - [ ] SMTP Mail
+  - [ ] Webhooks
 - [ ] Custom Status Updates
 - [x] Docker Image
 - [x] Docker-compose setup (example file)
@@ -26,7 +28,7 @@ To deploy Pulse-Check, copy the [docker-compose](https://github.com/JoshiCodes/P
 Make sure to configure your environment variables (best as a .env) like shown in the [.docker.env](https://github.com/JoshiCodes/PulseCheck/blob/master/docker/.docker.env)
 After you made your changes, run:
 ```bash
-docker-compose up -d
+docker-compose --env-file .docker.env up -d
 ```
 
 > [!Note]
