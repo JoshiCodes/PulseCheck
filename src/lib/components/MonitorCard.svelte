@@ -30,7 +30,7 @@
             </span>
         </div>
 
-        <div class="flex flex-row-reverse gap-1">
+        <div class="flex flex-row gap-1">
             {#each Array(10) as _, i}
                 {@const log = monitor.recentLogs[i]}
                 {#if log}

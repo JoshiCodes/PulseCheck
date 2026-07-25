@@ -14,11 +14,20 @@ while the main monitoring is working, no advanced options like Notifications or 
 - [ ] Full Admin Dashboard
 - [x] Adding/Removing monitors
 - [x] Monitoring (not full)
+  - [ ] Pull Monitoring from something like Grafana
+  - [ ] "Push" like monitoring (ping an API endpoint to update status)
+  - [ ] Manual Monitoring (Just setting the status manual)
 - [x] Monitoring Visualization
 - [ ] Notifications
   - [ ] SMTP Mail
-  - [ ] Webhooks
-- [ ] Custom Status Updates
+  - [ ] Webhooks (outgoing, PulseCheck -> external app)
+- [ ] Custom Status Updates (Incidents)
+  - [ ] Full History of Incidents
+  - [ ] Incident Status (Investigating, Identified, Monitoring, Resolved)
+- [ ] API
+  - [ ] Change status for manual monitors
+  - [ ] Create & Update Incidents
+  - [ ] Bearer Token Auth
 - [x] Docker Image
 - [x] Docker-compose setup (example file)
 - [ ] Better Documentation
